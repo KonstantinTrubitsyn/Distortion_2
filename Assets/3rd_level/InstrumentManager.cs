@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class InstrumentManager : MonoBehaviour
 {
@@ -12,7 +11,6 @@ public class InstrumentManager : MonoBehaviour
 
     private int currentStep = 0; // Текущий шаг в последовательности
     private bool isLevelComplete = false; // Флаг завершения уровня
-    private bool isFailing = false; // Флаг, если проигрывается ошибка
     private AudioSource failAudioSource; // Источник для звука ошибки
     private AudioSource successAudioSource; // Источник для финальной мелодии
 
@@ -39,8 +37,8 @@ public class InstrumentManager : MonoBehaviour
 
     public void OnInstrumentClicked(GameObject instrument)
     {
-        if (isLevelComplete || isFailing)
-            return; // Если уровень завершён или идёт ошибка, ничего не делаем
+        if (isLevelComplete)
+            return; // Если уровень завершён, ничего не делаем
 
         // Найти индекс нажатого инструмента
         int instrumentIndex = System.Array.IndexOf(instruments, instrument);
@@ -62,12 +60,8 @@ public class InstrumentManager : MonoBehaviour
                 Debug.Log($"Инструмент {instrument.name} подсвечен в цвет {highlightColor}.");
             }
 
-            // Настроить громкость и воспроизвести звук инструмента
-            if (audioSources[instrumentIndex] != null)
-            {
-                audioSources[instrumentIndex].volume = 0.1f;
-                audioSources[instrumentIndex].Play();
-            }
+            // Воспроизвести звук инструмента
+            audioSources[instrumentIndex].Play();
 
             // Переход к следующему шагу
             currentStep++;
@@ -83,25 +77,9 @@ public class InstrumentManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Неправильный порядок. Сброс последовательности.");
-            StartCoroutine(HandleFailSequence()); // Обработка ошибки
+            Debug.Log("Неправильный порядок, сброс. Проигрываем звук ошибки.");
+            PlayFailSound(); // Проиграть звук ошибки
         }
-    }
-
-    private IEnumerator HandleFailSequence()
-    {
-        isFailing = true; // Включаем флаг ошибки
-
-        // Воспроизводим звук ошибки
-        PlayFailSound();
-
-        // Ждём, пока проиграется плохая мелодия
-        yield return new WaitForSeconds(failClip.length);
-
-        // Сбрасываем последовательность
-        ResetSequence();
-
-        isFailing = false; // Отключаем флаг ошибки
     }
 
     public void ResetSequence()
@@ -161,9 +139,6 @@ public class InstrumentManager : MonoBehaviour
         {
             successAudioSource.Play();
             Debug.Log("Играется финальная мелодия.");
-
-            // Затемнение экрана
-            FindObjectOfType<EndGameEffect>().TriggerEndEffect();
         }
         else
         {
@@ -175,13 +150,23 @@ public class InstrumentManager : MonoBehaviour
     {
         Debug.Log("Вызван метод PlayFailSound.");
 
-        if (failAudioSource == null || failClip == null)
+        if (failAudioSource == null)
         {
-            Debug.LogError("failAudioSource или failClip не задан. Проверьте настройки.");
+            Debug.LogError("failAudioSource равен null. Проверьте создание AudioSource.");
             return;
         }
 
+        if (failClip == null)
+        {
+            Debug.LogError("failClip не задан. Добавьте звуковой файл в поле Fail Clip.");
+            return;
+        }
+
+        failAudioSource.clip = failClip;
         failAudioSource.Play();
         Debug.Log("Играется звук ошибки.");
+
+        // Сбрасываем последовательность через время, равное длине клипа
+        Invoke("ResetSequence", failClip.length);
     }
 }

@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: 1c241a80e47884e4b9f4553a77f1f16f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - successClip: {instanceID: 0}
+  - failClip: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
