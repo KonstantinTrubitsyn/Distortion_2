@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Interaction : MonoBehaviour
@@ -133,6 +134,15 @@ public class Interaction : MonoBehaviour
             if (audioSource != null && hintDisappearSound != null)
             {
                 audioSource.PlayOneShot(hintDisappearSound);
+                int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+                if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+                {
+                    SceneManager.LoadScene(nextSceneIndex);
+                }
+                else
+                {
+                    Debug.Log("Все уровни пройдены!");
+                }
             }
         }
     }

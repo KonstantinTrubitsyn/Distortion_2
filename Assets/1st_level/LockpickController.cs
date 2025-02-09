@@ -43,6 +43,11 @@ public class LockpickController : MonoBehaviour
         {
             MoveLockpick();
         }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            LoadNextLevel(); // Переход на следующий уровень
+        }
     }
 
     private void StartMoving()
