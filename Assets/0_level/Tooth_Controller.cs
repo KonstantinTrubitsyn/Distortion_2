@@ -3,29 +3,48 @@ using UnityEngine;
 public class KeyController : MonoBehaviour
 {
     private bool isPickedUp = false; // Флаг, показывающий, подобран ли ключ
+    private Collider2D keyCollider; // Ссылка на коллайдер
     public CarpetController carpetController; // Ссылка на скрипт ковра
+    public AudioClip openSound;
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        keyCollider = GetComponent<Collider2D>();
+        audioSource = GetComponent<AudioSource>();
+        DisableKey(); // Начальное состояние — ключ недоступен
+    }
 
     private void OnMouseDown()
     {
+        if (carpetController.IsRolled()) // Если ковёр откатан
         {
-            // Проверяем, откатан ли ковёр перед тем как кликнуть по ключу
-            if (carpetController.IsRolled()) // Если ковёр откатан
+            if (!isPickedUp)
             {
-                // Подбираем ключ, если он ещё не подобран
-                if (!isPickedUp)
-                {
-                    isPickedUp = true;
-                    // Отключаем коллайдер и спрайт, чтобы объект стал "невидимым"
-                    gameObject.GetComponent<Collider2D>().enabled = false;
-                    gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                    Debug.Log("Ключ подобран!");
-                }
-            }
-            else
-            {
-                Debug.Log("Невозможно подобрать ключ, ковёр закатан!");
+                audioSource.PlayOneShot(openSound);
+                isPickedUp = true;
+                // Отключаем коллайдер и спрайт, чтобы объект стал "невидимым"
+                keyCollider.enabled = false;
+                GetComponent<SpriteRenderer>().enabled = false;
+                Debug.Log("Ключ подобран!");
             }
         }
+        else
+        {
+            Debug.Log("Невозможно подобрать ключ, ковёр закатан!");
+        }
+    }
+
+    public void EnableKey()
+    {
+        keyCollider.enabled = true;
+        GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+    public void DisableKey()
+    {
+        keyCollider.enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
     }
 
     public bool IsPickedUp()
