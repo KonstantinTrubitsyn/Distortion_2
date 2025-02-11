@@ -1807,6 +1807,7 @@ GameObject:
   - component: {fileID: 1539750099}
   - component: {fileID: 1539750098}
   - component: {fileID: 1539750102}
+  - component: {fileID: 1539750103}
   m_Layer: 0
   m_Name: "\u0421\u043C\u043E\u0442\u0440\u0438\u0442\u0435\u043B\u044C\u043D\u0438\u0446\u0430"
   m_TagString: NPC
@@ -1930,7 +1931,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: 2676558068575178806, guid: 2f1494283c1c5664baa639ed11451742, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -1980,6 +1981,20 @@ MonoBehaviour:
   npcTag: NPC
   hintDisappearSound: {fileID: 8300000, guid: cce58a24e55c3a14ea31d48f4612c77a, type: 3}
   buttonClickSound: {fileID: 8300000, guid: 304a318294da8bb43a25fe1982671a8a, type: 3}
+--- !u!114 &1539750103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539750097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8906945288a24fd4399f563d76bf2bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bobSpeed: 0.3
+  bobAmount: 0.3
 --- !u!1 &1809609572
 GameObject:
   m_ObjectHideFlags: 0
@@ -2533,7 +2548,7 @@ Transform:
   m_GameObject: {fileID: 2117411433}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.04, y: -2.2, z: 0}
+  m_LocalPosition: {x: -3.21, y: -1.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
